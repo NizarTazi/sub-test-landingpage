@@ -451,7 +451,7 @@ const LandingPage = () => {
                   
                   <div className="form-group checkbox-group">
                     <input type="checkbox" id="terms" required />
-                    <label htmlFor="terms">J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a></label>
+                    <label htmlFor="terms">J'accepte les <a href="/terms">conditions d'utilisation</a> et la <a href="/privacy">politique de confidentialité</a></label>
                   </div>
                   
                   <button 
@@ -549,29 +549,29 @@ const LandingPage = () => {
               <div className="footer-links-column">
                 <h4>Produit</h4>
                 <ul>
-                  <li><a href="#">Cours</a></li>
-                  <li><a href="#">Exercices</a></li>
-                  <li><a href="#">TutoBot IA</a></li>
-                  <li><a href="#">Tutorat réel</a></li>
+                  <li><a href="/courses">Cours</a></li>
+                  <li><a href="/exercises">Exercices</a></li>
+                  <li><a href="/tutobot">TutoBot IA</a></li>
+                  <li><a href="/tutoring">Tutorat réel</a></li>
                 </ul>
               </div>
               
               <div className="footer-links-column">
                 <h4>Entreprise</h4>
                 <ul>
-                  <li><a href="#">À propos</a></li>
-                  <li><a href="#">Blog</a></li>
-                  <li><a href="#">Carrières</a></li>
-                  <li><a href="#">Contact</a></li>
+                  <li><a href="/about">À propos</a></li>
+                  <li><a href="/blog">Blog</a></li>
+                  <li><a href="/careers">Carrières</a></li>
+                  <li><a href="/contact">Contact</a></li>
                 </ul>
               </div>
               
               <div className="footer-links-column">
                 <h4>Légal</h4>
                 <ul>
-                  <li><a href="#">Conditions d'utilisation</a></li>
-                  <li><a href="#">Politique de confidentialité</a></li>
-                  <li><a href="#">Cookies</a></li>
+                  <li><a href="/terms">Conditions d'utilisation</a></li>
+                  <li><a href="/privacy">Politique de confidentialité</a></li>
+                  <li><a href="/cookies">Cookies</a></li>
                 </ul>
               </div>
               
@@ -589,10 +589,10 @@ const LandingPage = () => {
           <div className="footer-bottom">
             <p>&copy; 2025 Tutorax. Tous droits réservés.</p>
             <div className="social-icons">
-              <a href="#" aria-label="Facebook"><FontAwesomeIcon icon={faFacebook} /></a>
-              <a href="#" aria-label="Instagram"><FontAwesomeIcon icon={faInstagram} /></a>
-              <a href="#" aria-label="LinkedIn"><FontAwesomeIcon icon={faLinkedin} /></a>
-              <a href="#" aria-label="LinkedIn"><FontAwesomeIcon icon={faTwitter} /></a>
+              <a href="https://facebook.com/tutorax" aria-label="Facebook"><FontAwesomeIcon icon={faFacebook} /></a>
+              <a href="https://instagram.com/tutorax" aria-label="Instagram"><FontAwesomeIcon icon={faInstagram} /></a>
+              <a href="https://linkedin.com/company/tutorax" aria-label="LinkedIn"><FontAwesomeIcon icon={faLinkedin} /></a>
+              <a href="https://twitter.com/tutorax" aria-label="Twitter"><FontAwesomeIcon icon={faTwitter} /></a>
             </div>
           </div>
         </div>
