@@ -28,11 +28,32 @@ const LandingPage = () => {
     }));
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
-    // Here you would typically send the data to your backend
+    console.log('----Form submitted:', formData);
+    console.log('Updated!');
+    
+    try {
+      const webhookUrl="https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZmMDYzMjA0MzY1MjZiNTUzZDUxMzUi_pc";
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        console.log('Data successfully sent to webhook');
+        setSubmitted(true);
+      } else {
+        console.error('Failed to send data to webhook:', response.statusText);
+        alert('There was an error submitting the form. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error sending data to webhook:', error);
+      alert('There was an error submitting the form. Please try again.');
+    }
   };
   
   useEffect(() => {
