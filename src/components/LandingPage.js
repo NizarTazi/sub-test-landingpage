@@ -15,10 +15,47 @@ const LandingPage = () => {
     phone: '',
     childName: '',
     childLevel: '',
-    description: ''
+    description: '',
+    TC_ID: '' // Add TC_ID to your form data state
   });
   
   const [submitted, setSubmitted] = useState(false);
+  
+  // Add this useEffect to capture TC_ID from URL when component mounts
+  useEffect(() => {
+    // Try to get TC_ID from localStorage
+    const tcIdFromStorage = localStorage.getItem('tutorax_tc_id');
+    
+    if (tcIdFromStorage) {
+      console.log('TC_ID found in localStorage:', tcIdFromStorage);
+      
+      // Update form state with the ID
+      setFormData(prevState => ({
+        ...prevState,
+        TC_ID: tcIdFromStorage
+      }));
+      
+      // Remove the ID from localStorage after retrieving it
+      localStorage.removeItem('tutorax_tc_id');
+    }
+    
+    // Fallback: Also check URL parameters (in case localStorage approach fails)
+    const getUrlParameter = (name) => {
+      name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+      const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      const results = regex.exec(window.location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+    
+    const tcIdFromUrl = getUrlParameter('tc_id');
+    if (tcIdFromUrl && !tcIdFromStorage) {
+      console.log('TC_ID found in URL:', tcIdFromUrl);
+      setFormData(prevState => ({
+        ...prevState,
+        TC_ID: tcIdFromUrl
+      }));
+    }
+  }, []); // Empty dependency array ensures this runs once when component mounts
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,8 +67,8 @@ const LandingPage = () => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('----Form submitted:', formData);
-    console.log('Updated!');
+    console.log('Form submitted with data:', formData);
+    // Now formData includes TC_ID if it was in the URL
     
     try {
       const webhookUrl="https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZmMDYzMjA0MzY1MjZiNTUzZDUxMzUi_pc";
@@ -40,11 +77,11 @@ const LandingPage = () => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData) // TC_ID is now included in formData
       });
       
       if (response.ok) {
-        console.log('Data successfully sent to webhook');
+        console.log('Data successfully sent to webhook with TC_ID:', formData.TC_ID);
         setSubmitted(true);
       } else {
         console.error('Failed to send data to webhook:', response.statusText);
