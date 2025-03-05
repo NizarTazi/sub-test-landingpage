@@ -23,8 +23,12 @@ const LandingPage = () => {
   
   // Add this useEffect to capture TC_ID from URL when component mounts
   useEffect(() => {
+    console.log('TC_ID useEffect running');
+  
     // Try to get TC_ID from localStorage
+    console.log('Checking localStorage for tutorax_tc_id');
     const tcIdFromStorage = localStorage.getItem('tutorax_tc_id');
+    console.log('localStorage value:', tcIdFromStorage);
     
     if (tcIdFromStorage) {
       console.log('TC_ID found in localStorage:', tcIdFromStorage);
@@ -37,6 +41,7 @@ const LandingPage = () => {
       
       // Remove the ID from localStorage after retrieving it
       localStorage.removeItem('tutorax_tc_id');
+      console.log('Removed TC_ID from localStorage');
     }
     
     // Fallback: Also check URL parameters (in case localStorage approach fails)
@@ -68,6 +73,7 @@ const LandingPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form submitted with data:', formData);
+    console.log('TC_ID value in submission:', formData.TC_ID); // Add this line
     // Now formData includes TC_ID if it was in the URL
     
     try {
