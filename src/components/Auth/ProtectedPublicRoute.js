@@ -1,6 +1,6 @@
 // src/components/Auth/ProtectedPublicRoute.js
 import React, { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import LoadingState from '../UI/LoadingState';
 import RestrictedAccess from './RestrictedAccess';
@@ -13,7 +13,6 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const ProtectedPublicRoute = ({ children }) => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const {
     isAuthorized,
     isVerifying,
@@ -57,7 +56,7 @@ const ProtectedPublicRoute = ({ children }) => {
     };
 
     verifyAccess();
-  }, [searchParams]);
+  }, [searchParams, storedToken, setAuth, setIsVerifying, reset]);
 
   if (isVerifying) {
     return <LoadingState text="Vérification de l'accès..." />;
