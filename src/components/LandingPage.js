@@ -5,9 +5,12 @@ import { faInstagram, faFacebook, faLinkedin, faTwitter } from '@fortawesome/fre
 import './LandingPage.css';
 import tutoBot from '../media/TutoBot.png'; 
 import tutoBotResonse from '../media/tutobotresponse.png'; 
+import { useAuthStore } from '../store/authStore'; // Import the auth store
 
 const LandingPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { userData } = useAuthStore(); // Get user data from auth store
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -16,10 +19,37 @@ const LandingPage = () => {
     childName: '',
     childLevel: '',
     description: '',
-    TC_ID: '' // Add TC_ID to your form data state
+    TC_ID: userData?.role_id || '' // Initialize with the user ID if available
   });
   
   const [submitted, setSubmitted] = useState(false);
+
+  // Update form data when userData changes
+  useEffect(() => {
+    if (userData) {
+      // Log the entire user data object to see all possible fields
+      
+      // Try to find the TC ID in any of the possible fields
+      const possibleIdFields = ['role_id'];
+      let tcId = null;
+      
+      // Check each possible field
+      for (const field of possibleIdFields) {
+        if (userData[field]) {
+          tcId = userData[field];
+        }
+      }
+      
+      if (tcId) {
+        setFormData(prevState => ({
+          ...prevState,
+          TC_ID: tcId
+        }));
+      } else {
+      }
+    }
+  }, [userData]);
+    
   
   useEffect(() => {
     // Function to get URL parameters
@@ -30,16 +60,18 @@ const LandingPage = () => {
       return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
     
-    // Get TC_ID from URL if it exists
-    const tcIdFromUrl = getUrlParameter('tc_id');
-    if (tcIdFromUrl) {
-      console.log('TC_ID found in URL:', tcIdFromUrl);
-      setFormData(prevState => ({
-        ...prevState,
-        TC_ID: tcIdFromUrl
-      }));
+    // Get TC_ID from URL if it exists and userData is not available
+    if (!userData?.id) {
+      const tcIdFromUrl = getUrlParameter('tc_id');
+      if (tcIdFromUrl) {
+        console.log('TC_ID found in URL:', tcIdFromUrl);
+        setFormData(prevState => ({
+          ...prevState,
+          TC_ID: tcIdFromUrl
+        }));
+      }
     }
-  }, []); // Empty dependency array ensures this runs once when component mounts
+  }, [userData]);
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,7 +87,7 @@ const LandingPage = () => {
     // Now formData includes TC_ID if it was in the URL
     
     try {
-      const webhookUrl="https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZmMDYzMjA0MzY1MjZiNTUzZDUxMzUi_pc";
+      const webhookUrl="https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZjMDYzNTA0MzU1MjZmNTUzMDUxM2Ei_pc";
       const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
