@@ -64,7 +64,6 @@ const LandingPage = () => {
     if (!userData?.id) {
       const tcIdFromUrl = getUrlParameter('tc_id');
       if (tcIdFromUrl) {
-        console.log('TC_ID found in URL:', tcIdFromUrl);
         setFormData(prevState => ({
           ...prevState,
           TC_ID: tcIdFromUrl
@@ -93,7 +92,7 @@ const LandingPage = () => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify(formData) // TC_ID is now included in formData
+        body: new URLSearchParams(formData).toString(),
       });
       
       if (response.ok) {
